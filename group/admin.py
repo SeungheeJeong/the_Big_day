@@ -1,6 +1,15 @@
 from django.contrib import admin
-from .models import Recruit
+from . import models
 
-admin.site.register(Recruit)
 
-# Register your models here.
+@admin.register(models.Recruit)
+class RecruitAdmin(admin.ModelAdmin):
+    pass
+    # admin.site.register(Recruit)
+
+    # Register your models here.
+
+
+@admin.register(models.Applicant)
+class ApplicantAdmin(admin.ModelAdmin):
+    pass
