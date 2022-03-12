@@ -30,10 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
-    'group.apps.GroupConfig',
-    'map.apps.MapConfig',
-    'study.apps.StudyConfig',
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+PROJECT_APPS = [
+    'users.apps.UsersConfig',
+    'qnaboard.apps.QnaboardConfig',
+    'challenges.apps.ChallengesConfig',
+    'group.apps.GroupConfig',
+    'map.apps.MapConfig',
+    'study.apps.StudyConfig',
+]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,3 +137,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User'

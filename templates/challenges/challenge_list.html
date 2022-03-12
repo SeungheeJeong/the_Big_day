@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>번호</th>
+                <th style = "width: 50%;">제목</th>
+                <th>도전자</th>
+                <th>작성자</th>
+                <th>도전시작</th>
+                <th>도전종료</th>
+            </tr>
+            </thead>
+        <tbody>
+    {% if challenge_list %}
+    {% for challenge in challenge_list %}
+        <tr>
+            <td>{{ challenge.id }}</td>
+            <td class = "text-left">
+            <a href = "{% url 'challenges:detail' challenge.id  %}">{{ challenge.subject }} </a></td>
+            <td>{{ challenge.host.first_name }}</td> <!-- 글쓴이 속성 추가 -->
+            <td>{{ challenge.challenger.count}}</td>
+            <td>{{ challenge.date_start}}</td>
+            <td>{{ challenge.date_finish}}</td>
+        </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="3">챌린지가 없습니다.</td>
+    </tr>
+    {% endif %}
+    </tbody>
+</table>
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+    <!-- 이전페이지 -->
+    {% if question_list.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ challenge_list.previous_page_number }}">이전</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+    </li>
+    {% endif %}
+    <!-- 페이지리스트 -->
+    {% for page_number in challenge_list.paginator.page_range %}
+    {% if page_number >= challenge_list.number|add:-5 and page_number <= challenge_list.number|add:5 %}
+        {% if page_number == challenge_list.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
+    {% endif %}
+    {% endfor %}
+    <!-- 다음페이지 -->
+    {% if challenge_list.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ challenge_list.next_page_number }}">다음</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+    </li>
+    {% endif %}
+</ul>
+<!-- 페이징처리 끝 -->
+    <a href="{% url 'challenges:create' %}" class="btn btn-primary">챌린지 등록하기</a>
+{% endblock %}

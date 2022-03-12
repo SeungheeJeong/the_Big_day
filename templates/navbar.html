@@ -17,20 +17,25 @@
                   <a class="nav-link" href="{% url 'study:index' %}">알고리즘</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">챌린지</a>
+                  <a class="nav-link" href="{% url 'challenges:list' %}">챌린지</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     게시판
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Q&A</a></li>
+                    <li><a class="dropdown-item" href="{% url 'qnaboard:index' %}">Q&A</a></li>
                     <li><a class="dropdown-item" href="#">자료공유</a></li>
                     <li><a class="dropdown-item" href="#">전투력측정기</a></li>
                   </ul>
                 </li>
+                  {% if request.user.is_authenticated %}
+                  <a class="nav-link" href="{% url 'users:detail' user.id %}">{{ request.user.first_name }}</a>
+                  <a class="nav-link" href="{% url 'users:logout' %}">(로그아웃)</a>
+                  {% else %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">로그인</a></li>
-              </ul>
+                  {% endif %}
+                </ul>
             </div>
           </div>
         </nav>

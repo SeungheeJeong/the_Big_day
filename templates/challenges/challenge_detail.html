@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- 질문 내용 Start -->
+<div class="container my-3">
+    <h2 class="border-bottom py-2">{{challenge.subject}}</h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">{{challenge.description}}
+            <span>도전 시작 날짜 : {{ challenge.date_start}}</span>
+            <span>도전 종료 날짜 : {{ challenge.date_finish}}</span></div>
+            <!-- 참여 버튼 Start-->
+            <a href="{% url 'challenges:join' challenge.id %}" class="btn btn-primary">참여하기
+            <span>/{{ challenge.challenger.count}}명 참여중</span></a>
+            <!-- 참여 버튼 END -->
+            <div class="d-flex justify-content-end">
+                <div class="badge badge-light text-dark p-2">
+                    <div class="mb-2">{{ challenge.host.first_name  }}</div>
+                    <div>{{ challenge.created }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-3">
+        <a href="{% url 'challenges:create' %}" class="btn btn-primary">챌린지만들기</a>
+        <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+    </div>
+</div>
+{% endblock %}

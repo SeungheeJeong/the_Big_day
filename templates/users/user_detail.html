@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block page_title %}
+    {{user_obj.first_name}}'s Profile
+{% endblock %}
+{% block content %}
+<p>{{user_obj.avatar}}</p>
+<h1>{{ user_obj.first_name}}님의 프로필</h1>
+{% if user == user_obj %}
+    <p>전화번호: {{ user_obj.hp}}</p>
+{% endif %}
+<p>수강중인과정: {{ user_obj.takencourse}}</p>
+<hr>
+<h3>{{ user_obj.first_name}}님이 쓴 글 - {{user_obj.question_set.count}}</h3>
+<hr>
+<h3>{{ user_obj.first_name}}님이 참여중인 챌린지</h3>
+<hr>
+{% if user == user_obj %}
+    <a href="{% url 'users:update' %}">회원 수정</a>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-4">
+            <h4>챌린지 등록하기</h4>
+        </div>
+    </div>
+    <form method="post" action="{% url 'challenges:create' %}">
+        {% csrf_token %}
+        {{form.as_p}}
+    <button type="submit" class="btn btn-primary">제출하기</button>
+    <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+</form>
+</div>
+{% endblock %}

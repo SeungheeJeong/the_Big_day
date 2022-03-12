@@ -1,7 +1,8 @@
 from django import forms
-from map.models import Cafe
+from .models import Maps
 
-class CafeForm(forms.ModelForm):
+
+class MapsForm(forms.ModelForm):
     class Meta:
-        model = Cafe
-        fields = ['name', 'kakaourl', 'pageurl']
+        model = Maps
+        fields = ['category', 'name', 'kakaourl', 'pageurl']
