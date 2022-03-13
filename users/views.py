@@ -54,6 +54,7 @@ class UserProfileView(DetailView):
 
 class UpdateProfileView(UpdateView):
     model = models.User
+    context_object_name = "user_obj"
     template_name = "users/update_profile.html"
     success_url = reverse_lazy('users:detail')
 
@@ -65,11 +66,11 @@ class UpdateProfileView(UpdateView):
         "takencourse",
     )
 
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
     def get_object(self, queryset=None):
         return self.request.user
-
-    def get_success_url(self):
-        return reverse('users:detail', kwargs={'pk': self.object.pk})
 
 
 class UpdatePasswordView(PasswordChangeView):

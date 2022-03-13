@@ -10,8 +10,9 @@
 {% endif %}
 <p>수강중인과정: {{ user_obj.takencourse}}</p>
 <hr>
-<h3>{{ user_obj.first_name}}님이 쓴 글 - {{user_obj.question_set.count}}</h3>
+<h3>{{ user_obj.first_name}}님이 쓴 글 - {{user_obj.question_set.count}} {{count_post}}</h3>
 <hr>
+<p>{{queryset}} 개의 글을 썻습니다.</p>
 <h3>{{ user_obj.first_name}}님이 참여중인 챌린지</h3>
 <hr>
 {% if user == user_obj %}

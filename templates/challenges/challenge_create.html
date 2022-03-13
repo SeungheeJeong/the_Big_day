@@ -6,11 +6,40 @@
             <h4>챌린지 등록하기</h4>
         </div>
     </div>
-    <form method="post" action="{% url 'challenges:create' %}">
-        {% csrf_token %}
-        {{form.as_p}}
-    <button type="submit" class="btn btn-primary">제출하기</button>
-    <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+    <form method="post" action="{% url 'challenges:create' %}" class="row gy-2 gx-3 align-items-center">
+        {% csrf_token %}    
+        <div class="input-group mb-2">
+            <span class="btn btn-primary" id="subject">도전제목</span>
+            {{form.subject}}
+        </div>
+        <div class="input-group mb-3">
+            <span class="btn btn-primary" id="description">도전상세</span>
+            {{form.description}}
+        </div>
+        <div class="input-group mb-3">
+            <label class="btn btn-primary" for="routine">반복루틴</label>
+            {{form.routine}}
+        </div>
+        <div class="input-group mb-3">
+            <label for="num_of_auth_per_day" class="btn btn-primary" >하루 인증 횟수</label>
+            {{form.num_of_auth_per_day}}
+        </div>
+        <div class="input-group mb-3">
+            <div class="row">
+                <div class="col-auto">
+                    <label for="date_start" class="btn btn-primary" >도전 시작 날짜</label>
+                    <input type="date" id="date_start" name="date_start">
+                </div>
+                <div class="col-auto">
+                    <label for="date_finish" class="btn btn-primary" >도전 종료 날짜</label>
+                    <input type="date" id="date_finish" name="date_finish">
+                </div>
+            </div>
+        </div>
+        <div class="container mb-3">
+            <button type="submit" class="btn btn-primary">제출하기</button>
+            <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+        </div>
 </form>
 </div>
 {% endblock %}

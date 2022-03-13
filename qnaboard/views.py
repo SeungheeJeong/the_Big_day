@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer
@@ -55,6 +56,7 @@ def answer_create(request, question_id):
             return redirect('qnaboard:detail', question_id=question.id)
     else:
         form = AnswerForm()
+
     context = {'question': question, 'form': form}
     return render(request, 'qnaboard/question_detail.html', context)
 
@@ -108,11 +110,14 @@ def question_delete(request, question_id):
     """
     질문삭제
     """
-    question = get_object_or_404(Question, pk=question_id)
-    if request.user != question.author:
-        messages.error(request, '삭제권한이 없습니다')
-        return redirect('qnaboard:detail', question_id=question.id)
-    question.delete()
+    try:
+        question = get_object_or_404(Question, pk=question_id)
+        if request.user != question.author:
+            messages.error(request, '삭제권한이 없습니다')
+            return redirect('qnaboard:detail', question_id=question.id)
+        question.delete()
+    except:
+        messages.error(request, '삭제할 글이 존재하지 않습니다.')
     return redirect('qnaboard:index')
 
 
@@ -145,7 +150,8 @@ def answer_delete(request, answer_id):
     답변삭제
     """
     answer = get_object_or_404(Answer, pk=answer_id)
-    if request.user != answer.author:
+    user = request.user
+    if user != answer.author:
         messages.error(request, '삭제권한이 없습니다')
     else:
         answer.delete()

@@ -5,24 +5,44 @@
     <h2 class="border-bottom py-2">{{challenge.subject}}</h2>
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{challenge.description}}
+            <div class="card-text" style="white-space: pre-line;">
+            <p>{{challenge.description}}</p>
             <span>도전 시작 날짜 : {{ challenge.date_start}}</span>
             <span>도전 종료 날짜 : {{ challenge.date_finish}}</span></div>
+            <hr>
             <!-- 참여 버튼 Start-->
             <a href="{% url 'challenges:join' challenge.id %}" class="btn btn-primary">참여하기
             <span>/{{ challenge.challenger.count}}명 참여중</span></a>
             <!-- 참여 버튼 END -->
+            </div>
             <div class="d-flex justify-content-end">
                 <div class="badge badge-light text-dark p-2">
-                    <div class="mb-2">{{ challenge.host.first_name  }}</div>
-                    <div>{{ challenge.created }}</div>
+                    <div class="mb-2">주최자: {{ challenge.host.first_name }}</div>
+                    <div>작성일: {{ challenge.created }}</div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="my-3">
-        <a href="{% url 'challenges:create' %}" class="btn btn-primary">챌린지만들기</a>
-        <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+        <div class="d-inline my-3 ">
+            <div>
+            <a href="{% url 'challenges:create' %}" class="btn btn-primary">챌린지만들기</a>
+            {% if request.user == challenge.host %}
+            <a href="#" class="delete btn btn-primary " 
+                        data-uri="{% url 'challenges:delete' challenge.id  %}">삭제</a>
+            {% endif %}
+            <a href="{% url 'challenges:list' %}" class="btn btn-primary">목록으로</a>
+            </div>
+        </div>
     </div>
 </div>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $(".delete").on('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = $(this).data('uri');
+            }
+        });
+    });
+</script>
 {% endblock %}

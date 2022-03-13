@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load challenges_filter %}
 {% block content %}
 <div class="container my-3">
     <table class="table">
@@ -6,23 +7,26 @@
             <tr class="thead-dark">
                 <th>번호</th>
                 <th style = "width: 50%;">제목</th>
-                <th>도전자</th>
                 <th>작성자</th>
                 <th>도전시작</th>
                 <th>도전종료</th>
+                <th>작성일시</th>
             </tr>
             </thead>
         <tbody>
     {% if challenge_list %}
     {% for challenge in challenge_list %}
         <tr>
-            <td>{{ challenge.id }}</td>
+            <td>
+                <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+                {{ challenge_list.paginator.count|sub:challenge_list.start_index|sub:forloop.counter0|add:1 }}
+            </td>
             <td class = "text-left">
-            <a href = "{% url 'challenges:detail' challenge.id  %}">{{ challenge.subject }} </a></td>
+            <a href = "{% url 'challenges:detail' challenge.id  %}">{{ challenge.subject }}</a> <span> / 도전자: {{ challenge.challenger.count}}</span></td>
             <td>{{ challenge.host.first_name }}</td> <!-- 글쓴이 속성 추가 -->
-            <td>{{ challenge.challenger.count}}</td>
             <td>{{ challenge.date_start}}</td>
             <td>{{ challenge.date_finish}}</td>
+            <td>{{ challenge.created }}</td>
         </tr>
     {% endfor %}
     {% else %}
@@ -35,7 +39,7 @@
 <!-- 페이징처리 시작 -->
 <ul class="pagination justify-content-center">
     <!-- 이전페이지 -->
-    {% if question_list.has_previous %}
+    {% if challenge_list.has_previous %}
     <li class="page-item">
         <a class="page-link" href="?page={{ challenge_list.previous_page_number }}">이전</a>
     </li>

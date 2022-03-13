@@ -37,7 +37,8 @@ class Challenge(core_models.TimeStampedModel):
     description = models.TextField()
     status = models.CharField(
         max_length=8, choices=STATUS_CHOICES, default=STATUS_BEFORE)
-    host = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
+    host = models.ForeignKey(
+        user_models.User, related_name="challenge", on_delete=models.CASCADE)
     routine = models.CharField(
         max_length=15, choices=ROUTINE_CHOICES, default=ROUTINE_EVERYDAY)
     num_of_auth_per_day = models.IntegerField(default=1)
@@ -45,10 +46,13 @@ class Challenge(core_models.TimeStampedModel):
     date_finish = models.DateField(
         default=(timezone.now() + timedelta(weeks=1)), editable=True)
     challenger = models.ManyToManyField(
-        user_models.User, related_name="join", blank=True)
+        user_models.User, related_name="challenger", blank=True)
 
     def __str__(self):
         return f'{self.subject} - {self.status}'
+
+    def get_absolute_url(self):
+        return reverse("challenges:detail", kwargs={"pk": self.pk})
 
 
 class Photo(core_models.TimeStampedModel):

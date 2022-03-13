@@ -10,6 +10,8 @@ urlpatterns = [
          name='list'),
     path('<int:challenge_id>/', views.challengedetail,
          name='detail'),
-    path('<int:challenge_id>/', views.join,
+    path('join/<int:challenge_id>/', views.challenger,
          name='join'),
+    path('delete/<int:challenge_id>/',
+         views.challenge_delete, name='delete'),
 ]
