@@ -51,6 +51,12 @@ class UserProfileView(DetailView):
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
 
+    def setScore(self):
+        user = self.request.user
+        user.score += 10
+        user.score.save()
+        return user.score
+
 
 class UpdateProfileView(UpdateView):
     model = models.User
